@@ -15,6 +15,6 @@ public class AppUser {
     private Long id;
     private String username;
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> appRoles;
 }
