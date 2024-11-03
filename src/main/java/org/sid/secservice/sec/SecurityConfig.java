@@ -2,6 +2,7 @@ package org.sid.secservice.sec;
 
 import org.sid.secservice.sec.entities.AppUser;
 import org.sid.secservice.sec.filters.JwtAuthenticationFilter;
+import org.sid.secservice.sec.filters.JwtAuthorizationFilter;
 import org.sid.secservice.sec.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -65,7 +67,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         http.formLogin(); // formulaire de connexion
         http.authorizeRequests().anyRequest().authenticated();
-     http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
+        http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
+       //ces filtres c est comme des middle ware
+        http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
     @Bean // càd on peut injecter l'objet authenticationManager
     @Override
