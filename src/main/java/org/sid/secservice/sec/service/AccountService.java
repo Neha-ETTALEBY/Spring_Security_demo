@@ -10,6 +10,6 @@ public interface AccountService {
     AppRole addNewRole(AppRole role);
     void addRoleToUser(String username, String roleName);
    AppUser loadUserByUsername(String username);
-   List<AppUser> getAllUsers();
+   List<AppUser> listUsers();
 
 }
